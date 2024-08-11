@@ -3,5 +3,5 @@ WORKDIR /app
 COPY . /app
 RUN pip3 install -r /app/requirements.txt
 #CMD ["flask", "--app", "hello.py", "run"]
-CMD ["python", "hello.py"]
-
+#CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["python3", "hello.py"]
