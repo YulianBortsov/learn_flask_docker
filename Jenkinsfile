@@ -51,6 +51,8 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose down'
+                    // Run the cleanup script
+                    sh './remove_old_images.sh'
                 }
             }
         }
