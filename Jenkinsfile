@@ -27,7 +27,7 @@ pipeline {
                 script {
                     sh '''
                     sleep 10  # wait for the app to start
-                    curl -f http://localhost:5000 || exit 1
+                    curl -f http://localhost:5000/hello || exit 1
                     '''
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
         stage('Process Test Results') {
             steps {
                 script {
-                    def result = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:5000", returnStdout: true).trim()
+                    def result = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:5000/hello", returnStdout: true).trim()
                     if (result == '200') {
                         echo 'Test passed. Server responded with HTTP 200.'
                     } else {
