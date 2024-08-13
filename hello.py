@@ -32,14 +32,18 @@ def show_user_profile(username):
 def add_user():
     if request.method == 'GET':
         return render_template('add_user.html')
+
     username = request.form.get('username')
     email = request.form.get('email')
     if username in email:
         user = User(username=username, email=email)
         db.session.add(user)
         db.session.commit()
-        return jsonify({'message': 'User added!'}), 201
-    return jsonify({'message': 'Failed to add user. Please provide username and email.'}), 400
+        message = 'User added successfully!'
+        return render_template('add_user.html', message=message, message_class='success')
+    message = 'Failed to add user. Please provide both username and email.'
+    return render_template('add_user.html', message=message, message_class='error')
+
 
 @app.route("/hello")
 def hello_world():
