@@ -47,7 +47,7 @@ def hello_world():
 
 @app.route('/')
 def index():
-    return redirect(url_for("add_user"))
+    return render_template('index.html')
 
 @app.route('/list_users')
 def list_users():

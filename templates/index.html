@@ -3,75 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
+    <title>User Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
             text-align: center;
-            color: #333;
+            margin-top: 50px;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        input[type="text"], input[type="email"] {
-            padding: 10px;
-            margin: 5px 0;
-            box-sizing: border-box;
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            display: block;
+        .button {
             padding: 10px 20px;
             font-size: 16px;
-            text-align: center;
+            margin: 10px;
+            cursor: pointer;
+            text-decoration: none;
             color: white;
             background-color: #007bff;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
         }
-        button:hover {
+        .button:hover {
             background-color: #0056b3;
-        }
-        .message {
-            margin-top: 20px;
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Add User</h1>
-        <form action="/add_user" method="post">
-            <div class="form-group">
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email" required>
-            </div>
-            <button type="submit">Add User</button>
-        </form>
-        <div class="message">
-            <!-- Success or error messages will be displayed here -->
-            {% if message %}
-                <p>{{ message }}</p>
-            {% endif %}
-        </div>
-    </div>
+    <h1>User Management</h1>
+    <a href="/add_user" class="button">Add User</a>
+    <a href="/list_users" class="button">List Users</a>
 </body>
 </html>
-
