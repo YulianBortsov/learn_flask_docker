@@ -49,6 +49,12 @@ pipeline {
         }
         
         stage('Push Docker Image') {
+            agent {
+                docker {
+                    image 'docker:latest'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'c18e7966-672e-48de-baf9-673a8ae98fe0') {
