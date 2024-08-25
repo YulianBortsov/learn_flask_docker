@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         COMPOSE_PROJECT_NAME = 'flaskapp'
-        DOCKER_IMAGE_NAME = 'yulianbortsov/flaskapp'
+        DOCKER_IMAGE_NAME = 'yulianbortsov/flask_docker'
     }
 
     stages {
@@ -51,7 +51,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', c18e7966-672e-48de-baf9-673a8ae98fe0) {
+                    docker.withRegistry('https://index.docker.io/v1/', 'c18e7966-672e-48de-baf9-673a8ae98fe0') {
                         def appImage = docker.build("${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
                         appImage.push()
                         appImage.push("latest")
