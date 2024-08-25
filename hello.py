@@ -41,13 +41,13 @@ def add_user():
         db.session.commit()
         message = 'User added successfully!'
         return render_template('add_user.html', message=message, message_class='success')
-    message = 'Failed to add user. Please provide both username and email.'
+    message = 'Failed to add user. Please provide both username and email. The email should contain the username.'
     return render_template('add_user.html', message=message, message_class='error')
 
 
 @app.route("/hello")
 def hello_world():
-	return "<p>Hello, World!</p>"
+	return "<p>Hello, World!!</p>"
 
 @app.route('/')
 def index():
