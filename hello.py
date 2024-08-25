@@ -47,7 +47,7 @@ def add_user():
 
 @app.route("/hello")
 def hello_world():
-	return "<p>Hello, World!!!</p>"
+	return "<p>Hello, World!</p>"
 
 @app.route('/')
 def index():
