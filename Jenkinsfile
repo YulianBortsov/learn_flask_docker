@@ -57,7 +57,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'c18e7966-672e-48de-baf9-673a8ae98fe0') {
+                    sudo docker.withRegistry('https://index.docker.io/v1/', 'c18e7966-672e-48de-baf9-673a8ae98fe0') {
                         def appImage = docker.build("${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
                         appImage.push()
                         appImage.push("latest")
