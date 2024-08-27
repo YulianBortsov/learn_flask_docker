@@ -82,7 +82,7 @@ pipeline {
                 script {
                     sshagent([SSH_KEY_CREDENTIALS_ID]) {
                         sh """
-                        scp -o StrictHostKeyChecking=no -i ${env.SSH_PRIVATE_KEY} docker-compose.yml ${EC2_HOST}:/home/ec2-user/docker-compose/
+                        scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_HOST}:/home/ec2-user/docker-compose/
                         ssh ${EC2_HOST} 'docker pull ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
                         ssh ${EC2_HOST} 'cd /path/to/your/docker-compose && docker-compose down && docker-compose up -d'
                         """
