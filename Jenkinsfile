@@ -56,7 +56,7 @@ pipeline {
                 script {
                     // Update the docker-compose.yml to use the pre-built image for Flask app
                     sh '''
-                    sed -i 's|build: .|image: ${DOCKER_IMAGE_NAME_APP}:latest|' docker-compose.yml
+                    sed -i 's|build: .|image: ${DOCKER_IMAGE_NAME}:latest|' docker-compose.yml
                     sed -i 's|command: flask run --host=0.0.0.0|command: flask run --host=0.0.0.0|' docker-compose.yml
                     # Remove the volume mount for init.sql if not needed
                     sed -i '/init.sql/d' docker-compose.yml
@@ -83,7 +83,7 @@ pipeline {
                     sshagent([SSH_KEY_CREDENTIALS_ID]) {
                         sh """
                         scp -o StrictHostKeyChecking=no -i ${env.SSH_PRIVATE_KEY} docker-compose.yml ${EC2_HOST}:/home/ec2-user/docker-compose/
-                        ssh ${EC2_HOST} 'docker pull ${DOCKER_IMAGE_NAME_APP}:${env.BUILD_NUMBER}'
+                        ssh ${EC2_HOST} 'docker pull ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
                         ssh ${EC2_HOST} 'cd /path/to/your/docker-compose && docker-compose down && docker-compose up -d'
                         """
                     }
