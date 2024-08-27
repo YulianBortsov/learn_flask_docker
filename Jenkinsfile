@@ -5,7 +5,8 @@ pipeline {
         COMPOSE_PROJECT_NAME = 'flaskapp'
         DOCKER_IMAGE_NAME = 'yulianbortsov/flask_docker'
         DOCKERHUB_CREDENTIALS_ID = 'c18e7966-672e-48de-baf9-673a8ae98fe0'
-        EC2_HOST = 'ec2-user@54.211.84.89'
+        EC2_HOST = '54.211.84.89'
+        EC2_USER = 'ec2-user'
         SSH_KEY_CREDENTIALS_ID = '2b5a27f6-928a-4673-aa89-6d484b86cf65'
     }
 
@@ -81,11 +82,15 @@ pipeline {
             steps {
                 script {
                     sshagent([SSH_KEY_CREDENTIALS_ID]) {
-                        sh """
-                        scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_HOST}:/home/ec2-user/docker-compose/
-                        ssh ${EC2_HOST} 'docker pull ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}'
-                        ssh ${EC2_HOST} 'cd /path/to/your/docker-compose && docker-compose down && docker-compose up -d'
-                        """
+                       sh '''
+                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/docker-compose/
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} << 'EOF'
+                                cd /home/${EC2_USER}/docker-compose/
+                                docker-compose down -v
+                                docker-compose pull
+                                docker-compose up -d
+                            EOF
+                        '''
                     }
                 }
             }
