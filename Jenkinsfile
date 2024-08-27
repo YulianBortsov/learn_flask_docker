@@ -4,6 +4,9 @@ pipeline {
     environment {
         COMPOSE_PROJECT_NAME = 'flaskapp'
         DOCKER_IMAGE_NAME = 'yulianbortsov/flask_docker'
+        DOCKERHUB_CREDENTIALS_ID = 'c18e7966-672e-48de-baf9-673a8ae98fe0'
+        EC2_HOST = 'ec2-user@54.211.84.89'
+        SSH_KEY_CREDENTIALS_ID = '2b5a27f6-928a-4673-aa89-6d484b86cf65'
     }
 
     stages {
@@ -48,6 +51,20 @@ pipeline {
             }
         }
         
+        stage('Modify docker-compose.yml') {
+            steps {
+                script {
+                    // Update the docker-compose.yml to use the pre-built image for Flask app
+                    sh '''
+                    sed -i 's|build: .|image: ${DOCKER_IMAGE_NAME_APP}:latest|' docker-compose.yml
+                    sed -i 's|command: flask run --host=0.0.0.0|command: flask run --host=0.0.0.0|' docker-compose.yml
+                    # Remove the volume mount for init.sql if not needed
+                    sed -i '/init.sql/d' docker-compose.yml
+                    '''
+                }
+            }
+        }
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -60,6 +77,19 @@ pipeline {
             }
         }
 
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    sshagent([SSH_KEY_CREDENTIALS_ID]) {
+                        sh """
+                        scp -o StrictHostKeyChecking=no -i ${env.SSH_PRIVATE_KEY} docker-compose.yml ${EC2_HOST}:/home/ec2-user/docker-compose/
+                        ssh ${EC2_HOST} 'docker pull ${DOCKER_IMAGE_NAME_APP}:${env.BUILD_NUMBER}'
+                        ssh ${EC2_HOST} 'cd /path/to/your/docker-compose && docker-compose down && docker-compose up -d'
+                        """
+                    }
+                }
+            }
+        }
         stage('Cleanup') {
             steps {
                 script {
