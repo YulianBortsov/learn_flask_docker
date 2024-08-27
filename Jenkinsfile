@@ -83,7 +83,7 @@ pipeline {
                 script {
                     sshagent([SSH_KEY_CREDENTIALS_ID]) {
                        sh '''
-                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/docker-compose/
+                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_HOST}:/home/${EC2_USER}/docker-compose.yml
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} << 'EOF'
                                 cd /home/${EC2_USER}/docker-compose/
                                 docker-compose down -v
