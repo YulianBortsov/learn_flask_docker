@@ -5,7 +5,7 @@ pipeline {
         COMPOSE_PROJECT_NAME = 'flaskapp'
         DOCKER_IMAGE_NAME = 'yulianbortsov/flask_docker'
         DOCKERHUB_CREDENTIALS_ID = 'c18e7966-672e-48de-baf9-673a8ae98fe0'
-        EC2_HOST = '44.212.65.210'
+        EC2_HOST = '3.86.162.7'
         EC2_USER = 'ec2-user'
         SSH_KEY_CREDENTIALS_ID = '2b5a27f6-928a-4673-aa89-6d484b86cf65'
     }
